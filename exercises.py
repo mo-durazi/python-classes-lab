@@ -28,20 +28,20 @@ class Game():
         if(self.tie == True):
             print('Time Game!')
         elif(self.winner != None):
-            print(f'{self.winner} win the game!')
+            print(f'{self.winner} won the game!')
         else:
             print(f"It's player {self.turn}'s turn!")
 
     def render(self):
-        Game.print_board()
-        Game.print_message()
+        self.print_board()
+        self.print_message()
 
     def get_move(self):
-        while True:    
-            move = input(f"Enter a valid move (example: A1)").lower()
+        while True:
+            move = input("Enter a valid move (example: A1)").strip().lower()
             if move in self.board:
-                if self.board(move) == None:
-                    self.board(move) = self.turn
+                if self.board[move] is None:
+                    self.board[move] = self.turn
                     break
                 else:
                     print('This spot is occupied')
@@ -61,12 +61,12 @@ class Game():
         ]
         for line in winning_combos:
             a, b, c = line
-            if self.board[a] and (self.board[a] == self.board[b] == self[c]):
+            if self.board[a] and (self.board[a] == self.board[b] == self.board[c]):
                 self.winner = self.board[a]
                 return True
 
     def check_tie(self):
-        if all(value is not None for value in self.board.values):
+        if all(value is not None for value in self.board.values()):
             self.tie = True
             return True
 
@@ -74,7 +74,7 @@ class Game():
         if(self.turn == 'X'):
             self.turn = 'O'
             print('O turn')
-        if(self.turn == 'O'):
+        elif(self.turn == 'O'):
             self.turn = 'X'
             print('X turn')
 
@@ -83,6 +83,7 @@ class Game():
             self.render()
             self.get_move()
             if self.check_winner() == True:
+                self.render()
                 print(f'Congrats! {self.turn} won')
                 break
             if self.check_tie() == True:
