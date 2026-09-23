@@ -78,6 +78,24 @@ class Game():
             self.turn = 'X'
             print('X turn')
 
+    def restart(self):
+        for move in self.board:
+            if self.board[move] is not None:
+                self.board[move] = None
+
+    def replay(self):
+        ans = input("would you like to play again? (yes/no) ").strip().lower()
+        if ans == 'yes':
+            self.restart()
+            self.play_game()
+        elif ans == 'no':
+            print('thank you for playing')
+            return 0
+        else:
+            print('Cannot recognize the message, enter either yes or no')
+            self.replay()
+
+
     def play_game(self):
         while True:
             self.render()
@@ -85,9 +103,12 @@ class Game():
             if self.check_winner() == True:
                 self.render()
                 print(f'Congrats! {self.turn} won')
+                self.replay()
                 break
             if self.check_tie() == True:
+                self.render()
                 print(f'It is a Tie')
+                self.replay()
                 break
             self.switch_turn()
 
